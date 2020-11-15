@@ -7,6 +7,9 @@ API to manage my skill stack.
 ## Features
 
 * Typescript
-* ESLint for TS
+* Typescript ESLint
 * Prettier
 * Jest
+* Express
+* Mongoose
+* ts-node
