@@ -1,8 +1,8 @@
-# MyStack API
+# My API
 
 ## Overview
 
-API to manage my skill stack.
+API to manage 'My Informations'.
 
 ## Features
 
