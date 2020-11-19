@@ -42,5 +42,6 @@ app.use(cors())
 app.use(express.json()) // use express standard modules
 app.use(express.urlencoded({ extended: true })) // use express standard modules
 app.use('/', router)
-app.listen(port)
+const server = app.listen(port)
+server.timeout = 1000 * 30 * 1 // 1000[ms](1[s]) * 30 * 1 = 30[s]
 console.log(`Listen port ${port}`)
