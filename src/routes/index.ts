@@ -1,7 +1,8 @@
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
-import { TestService } from '../services/TestService'
+import IMySkill from '../interfaces/IMySkill'
+import MySkillService from '../services/MySkillService'
 
 const app = express()
 app.use(helmet())
@@ -13,10 +14,19 @@ router.get('/', (req, res) => {
   res.status(200).send({ message: 'Hello, world' })
 })
 
-router.get('/test', (req, res, next) => {
-  const service = new TestService()
+router.get('/skill', (req, res, next) => {
+  const service = new MySkillService()
   service
-    .test()
+    .reads()
+    .then((result) => res.status(200).send(result))
+    .catch(next)
+})
+
+router.post('/skill', (req, res, next) => {
+  const mySkill = req.body as IMySkill // Deprecated but unavoidable ...
+  const service = new MySkillService()
+  service
+    .create(mySkill)
     .then((result) => res.status(200).send(result))
     .catch(next)
 })
