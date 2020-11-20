@@ -32,4 +32,4 @@ const skillSchema: mongoose.Schema = new mongoose.Schema(
   }
 )
 
-export default mongoose.model<ISkillDocument>('MySkill', skillSchema)
+export default mongoose.model<ISkillDocument>('Skill', skillSchema)
