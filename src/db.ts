@@ -26,13 +26,19 @@ class DB {
     mongoose
       .connect(this.dbUrl, this.dbOptions)
       .then(() => {
-        console.log('successfully connected to the database')
+        console.log('Successfully connected to the database.')
       })
       .catch((err) => {
-        console.log('error connecting to the database')
+        console.log('Error connecting to the database.')
         console.log(err)
         process.exit(-1)
       })
+  }
+
+  public close = async (): Promise<void> => {
+    await mongoose.connection
+      .close()
+      .then(() => console.log('Closed mongo connection.'))
   }
 }
 
