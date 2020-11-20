@@ -4,9 +4,17 @@ import DB from '../src/db'
 
 import ISkill from '../src/interfaces/ISkill'
 
-// connect db
 const db: DB = new DB()
-db.connect()
+
+beforeAll(() => {
+  // connect db
+  db.connect()
+})
+
+afterAll(async () => {
+  // closed db
+  await db.close()
+})
 
 describe('GET /skill', () => {
   test('return 200', async (done: jest.DoneCallback) => {
