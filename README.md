@@ -1,8 +1,8 @@
-# My API
+# Myself API
 
 ## Overview
 
-API to manage 'My Informations'.
+API to manage 'Myself information'.
 
 ## Features
 
