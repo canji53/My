@@ -1,0 +1,41 @@
+name: MYSELF API CI
+
+on:
+  pull_request_target:
+    branches:
+      - master
+    types: [closed]
+    paths: 
+      - '!.commit_template'
+      - '!.eslintignore'
+      - '!.eslintrc'
+      - '!.gitignore'
+      - '!.node-version'
+      - '!.prettierrc.js'
+      - '!README.md'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 14
+
+      - name: Install npm packages
+        run: |
+          npm install
+
+      - name: Lint and Formatter
+        run: |
+          npm run lint & npm run lint:fix
+
+      - name: Test
+        run: |
+          npm run test
