@@ -1,15 +1,16 @@
-# Myself API
+# Myself REST API
 
 ## Overview
 
-API to manage 'Myself information'.
+REST API to manage 'Myself information'.
 
 ## Features
 
+* REST API
 * Typescript
+* Express
+* MongoDB
+* Mongoose
 * Typescript ESLint
 * Prettier
 * Jest
-* Express
-* Mongoose
-* ts-node

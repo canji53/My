@@ -12,6 +12,10 @@ const skillSchema: mongoose.Schema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    hidden: {
+      type: Boolean,
+      required: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -20,10 +24,6 @@ const skillSchema: mongoose.Schema = new mongoose.Schema(
     updatedAt: {
       type: Date,
       default: Date.now,
-      required: true,
-    },
-    hidden: {
-      type: Boolean,
       required: true,
     },
   },

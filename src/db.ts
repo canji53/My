@@ -22,8 +22,8 @@ class DB {
     useCreateIndex: true,
   }
 
-  public connect = (): void => {
-    mongoose
+  public connect = async (): Promise<void> => {
+    await mongoose
       .connect(this.dbUrl, this.dbOptions)
       .then(() => {
         console.log('Successfully connected to the database.')
