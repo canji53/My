@@ -3,6 +3,8 @@ import helmet from 'helmet'
 import cors from 'cors'
 import ISkill, { ISkillResponse } from '../interfaces/ISkill'
 import SkillService from '../services/SkillService'
+import UserService from '../services/UserService'
+import IUser from '../interfaces/IUser'
 
 const app = express()
 app.use(helmet())
@@ -10,9 +12,82 @@ app.use(cors())
 
 const router = express.Router()
 
-router.get('/', (req: express.Request, res: express.Response) => {
+router.get('/', (_: express.Request, res: express.Response) => {
   res.status(200).send({ message: 'Hello, world' })
 })
+
+router.get(
+  '/users',
+  (_: express.Request, res: express.Response, next: express.NextFunction) => {
+    const service = new UserService()
+    service
+      .read()
+      .then(({ status, users, message }) =>
+        res.status(status).send({ users, message })
+      )
+      .catch(next)
+  }
+)
+
+router.post(
+  '/users',
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const createdUser = req.body as IUser
+    const service = new UserService()
+    service
+      .createOne(createdUser)
+      .then(({ status, user, message }) =>
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        res.status(status).send({ user, message })
+      )
+      .catch(next)
+  }
+)
+
+router.get(
+  '/users/:_id',
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { _id } = req.params
+    const requestedUser = req.body as IUser
+    const service = new UserService()
+    service
+      .readOne({ _id, user: requestedUser })
+      .then(({ status, user, message }) => {
+        res.status(status).send({ user, message })
+      })
+      .catch(next)
+  }
+)
+
+router.put(
+  '/users/:_id',
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { _id } = req.params
+    const { before, after } = req.body as { before: IUser; after: IUser }
+    const service = new UserService()
+    service
+      .updateOne({ _id, before, after })
+      .then(({ status, user, message }) => {
+        res.status(status).send({ user, message })
+      })
+      .catch(next)
+  }
+)
+
+router.delete(
+  '/users/:_id',
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { _id } = req.params
+    const deletedUser = req.body as IUser
+    const service = new UserService()
+    service
+      .deleteOne({ _id, user: deletedUser })
+      .then(({ status, user, message }) => {
+        res.status(status).send({ user, message })
+      })
+      .catch(next)
+  }
+)
 
 router.get(
   '/skill',
