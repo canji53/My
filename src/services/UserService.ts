@@ -97,7 +97,10 @@ class UserService {
           }
         }
         // Compare plane_pass and hash_pass
-        const match = await bcrypt.compare(user.password, userDocument.password)
+        const match: boolean = await bcrypt.compare(
+          user.password,
+          userDocument.password
+        )
         if (!match) {
           return {
             status: 401,
