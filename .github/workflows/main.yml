@@ -45,6 +45,7 @@ jobs:
           echo "TEST_USER_ID=${{ secrets.TEST_USER_ID }}" >> .env
           echo "TEST_USER_NAME=${{ secrets.TEST_USER_NAME }}" >> .env
           echo "TEST_USER_PASSWORD=${{ secrets.TEST_USER_PASSWORD }}" >> .env
+          cat .env
 
       - name: Test
         run: |
