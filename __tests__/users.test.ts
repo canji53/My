@@ -90,7 +90,7 @@ describe('/users', () => {
           password: process.env.TEST_USER_PASSWORD || '',
         }
         const response = await request(server.app)
-          .get('/users/5fbb60088a206700ee27340f')
+          .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
         expect(response.status).toBe(200)
         done()
