@@ -38,8 +38,6 @@ describe('/users', () => {
         .post('/users')
         .send(requestBody)
       expect(response.status).toBe(409)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      console.log(response.body.message)
       done()
     })
 
@@ -91,12 +89,11 @@ describe('/users', () => {
           name: process.env.TEST_USER_NAME || '',
           password: process.env.TEST_USER_PASSWORD || '',
         }
+        console.log(process.env.TEST_USER_ID, requestedUser)
         const response = await request(server.app)
           .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
         expect(response.status).toBe(200)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        console.log(response.body.message)
         done()
       })
 
@@ -106,12 +103,11 @@ describe('/users', () => {
           name: process.env.TEST_USER_NAME || '',
           password: 'fakepassword',
         }
+        console.log(process.env.TEST_USER_ID, requestedUser)
         const response = await request(server.app)
           .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
         expect(response.status).toBe(401)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        console.log(response.body.message)
         done()
       })
 
@@ -177,8 +173,6 @@ describe('/users', () => {
           .put(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestBody)
         expect(response.status).toBe(200)
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        console.log(response.body.message)
         done()
       })
     })
