@@ -38,6 +38,8 @@ describe('/users', () => {
         .post('/users')
         .send(requestBody)
       expect(response.status).toBe(409)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      console.log(response.body.message)
       done()
     })
 
@@ -93,6 +95,8 @@ describe('/users', () => {
           .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
         expect(response.status).toBe(200)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.log(response.body.message)
         done()
       })
 
@@ -106,6 +110,8 @@ describe('/users', () => {
           .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
         expect(response.status).toBe(401)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.log(response.body.message)
         done()
       })
 
@@ -171,6 +177,8 @@ describe('/users', () => {
           .put(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestBody)
         expect(response.status).toBe(200)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.log(response.body.message)
         done()
       })
     })
