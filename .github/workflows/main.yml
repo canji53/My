@@ -37,16 +37,19 @@ jobs:
         run: |
           npm run lint & npm run lint:fix
 
+      - name: Create .env
+        run: |
+          echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}" >> .env
+          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
+          echo "MONGO_DBNAME=${{ secrets.MONGO_DBNAME }}" >> .env
+          echo "TEST_USER_ID=${{ secrets.TEST_USER_ID }}" >> .env
+          echo "TEST_USER_NAME=${{ secrets.TEST_USER_NAME }}" >> .env
+          echo "TEST_USER_PASSWORD=${{ secrets.TEST_USER_PASSWORD }}" >> .env
+
       - name: Test
-        env:
-          MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-          MONGO_DBNAME: ${{ secrets.MONGO_DBNAME }}
-          TEST_USER_ID: ${{ secrets.TEST_USER_ID }}
-          TEST_USER_NAME: ${{ secrets.TEST_USER_NAME }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
         run: |
           npm run test
+          rm .env
 
       - name: Deploy to HEROKU
         uses: akhileshns/heroku-deploy@v3.6.8
