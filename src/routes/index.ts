@@ -37,7 +37,6 @@ router.post(
     service
       .createOne(createdUser)
       .then(({ status, user, message }) =>
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         res.status(status).send({ user, message })
       )
       .catch(next)

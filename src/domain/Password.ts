@@ -1,13 +1,13 @@
-import Validator from 'password-validator'
+import PasswordValidator from 'password-validator'
 
-class PasswordValidator {
+class Password {
   private readonly minLength: number = 8
 
   private readonly maxLength: number = 64
 
   private readonly blackList: string[] = ['12345678']
 
-  private readonly schema: Validator = new Validator()
+  private readonly schema: PasswordValidator = new PasswordValidator()
 
   constructor() {
     this.schema
@@ -27,7 +27,7 @@ class PasswordValidator {
       .oneOf(this.blackList)
   }
 
-  public validate(password: string): [boolean, string] {
+  public validate = (password: string): [boolean, string] => {
     const checkList = this.schema.validate(password, { list: true })
     const check = !(checkList.length > 0)
     const errorMessage: string =
@@ -38,4 +38,4 @@ class PasswordValidator {
   }
 }
 
-export default PasswordValidator
+export default Password

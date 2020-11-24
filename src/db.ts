@@ -22,6 +22,10 @@ class DB {
     useCreateIndex: true,
   }
 
+  constructor() {
+    mongoose.set('useFindAndModify', false)
+  }
+
   public connect = async (): Promise<void> => {
     await mongoose
       .connect(this.dbUrl, this.dbOptions)

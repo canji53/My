@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt, { hash } from 'bcrypt'
-import PasswordValidator from '../domain/PasswordValidator'
+import Password from '../domain/Password'
 import UserModel from '../models/UserModel'
 import IUser, { IUserDocument } from '../interfaces/IUser'
 
@@ -37,8 +37,8 @@ class UserService {
     message?: string
   }> => {
     // password check
-    const passwordValidator = new PasswordValidator()
-    const [check, errorMessage] = passwordValidator.validate(user.password)
+    const password = new Password()
+    const [check, errorMessage] = password.validate(user.password)
     if (!check) {
       return {
         status: 400,
@@ -97,7 +97,10 @@ class UserService {
           }
         }
         // Compare plane_pass and hash_pass
-        const match = await bcrypt.compare(user.password, userDocument.password)
+        const match: boolean = await bcrypt.compare(
+          user.password,
+          userDocument.password
+        )
         if (!match) {
           return {
             status: 401,
