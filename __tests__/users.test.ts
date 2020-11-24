@@ -86,7 +86,7 @@ describe('/users', () => {
       test('200', async (done: jest.DoneCallback) => {
         const server: App = new App()
         const requestedUser: IUser = {
-          name: process.env.TEST_USER_NAME || '',
+          name: 'test',
           password: process.env.TEST_USER_PASSWORD || '',
         }
         console.log(process.env.TEST_USER_ID, requestedUser)
@@ -100,7 +100,7 @@ describe('/users', () => {
       test('401 Unauthorized', async (done: jest.DoneCallback) => {
         const server: App = new App()
         const requestedUser: IUser = {
-          name: process.env.TEST_USER_NAME || '',
+          name: 'test',
           password: 'fakepassword',
         }
         console.log(process.env.TEST_USER_ID, requestedUser)
