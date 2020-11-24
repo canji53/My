@@ -37,7 +37,7 @@ class UserService {
     message?: string
   }> => {
     // password check
-    const password = new Password()
+    const password: Password = new Password()
     const [check, errorMessage] = password.validate(user.password)
     if (!check) {
       return {
@@ -90,6 +90,7 @@ class UserService {
     const result = await UserModel.findById(_id)
       .exec()
       .then(async (userDocument) => {
+        console.log(userDocument)
         // Not found user
         if (!userDocument) {
           return {
