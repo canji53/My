@@ -86,12 +86,11 @@ describe('/users', () => {
       test('200', async (done: jest.DoneCallback) => {
         const server: App = new App()
         const requestedUser: IUser = {
-          name: 'test',
+          name: process.env.TEST_USER_NAME || '',
           password: process.env.TEST_USER_PASSWORD || '',
         }
-        console.log(process.env.TEST_USER_ID, requestedUser)
         const response = await request(server.app)
-          .get(`/users/${process.env.TEST_USER_ID || ''}`)
+          .get('/users/5fbb60088a206700ee27340f')
           .send(requestedUser)
         expect(response.status).toBe(200)
         done()
@@ -100,10 +99,9 @@ describe('/users', () => {
       test('401 Unauthorized', async (done: jest.DoneCallback) => {
         const server: App = new App()
         const requestedUser: IUser = {
-          name: 'test',
+          name: process.env.TEST_USER_NAME || '',
           password: 'fakepassword',
         }
-        console.log(process.env.TEST_USER_ID, requestedUser)
         const response = await request(server.app)
           .get(`/users/${process.env.TEST_USER_ID || ''}`)
           .send(requestedUser)
