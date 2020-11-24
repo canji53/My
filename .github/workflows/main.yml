@@ -6,7 +6,7 @@ on:
       - master
     types: [closed]
     paths:
-      - './**'
+      - '**'
       - '!.commit_template'
       - '!.eslintignore'
       - '!.eslintrc'
@@ -33,7 +33,7 @@ jobs:
         run: |
           npm install
 
-      - name: Lint and Formatter
+      - name: Lint and Format
         run: |
           npm run lint & npm run lint:fix
 
