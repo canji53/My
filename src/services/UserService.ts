@@ -224,6 +224,43 @@ class UserService {
 
     return result
   }
+
+  public readOneByName = async (
+    user: IUser
+  ): Promise<{ status: number; user?: IUserDocument; message?: string }> => {
+    const result = await UserModel.findOne({ name: user.name })
+      .exec()
+      .then(async (userDocument: IUserDocument | null) => {
+        if (!userDocument) {
+          return {
+            status: 404,
+          }
+        }
+        // Compare plane_pass and hash_pass
+        const match: boolean = await bcrypt.compare(
+          user.password,
+          userDocument.password
+        )
+        if (!match) {
+          return {
+            status: 401,
+          }
+        }
+        return {
+          status: 200,
+          user: userDocument,
+        }
+      })
+      .catch((err: mongoose.Error) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        return {
+          status: 500,
+          message: err.message,
+        }
+      })
+    return result
+  }
 }
 
 export default UserService
