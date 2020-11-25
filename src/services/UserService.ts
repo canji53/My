@@ -31,18 +31,14 @@ class UserService {
 
   public createOne = async (
     user: IUser
-  ): Promise<{
-    status: number
-    user?: IUserDocument
-    message?: string
-  }> => {
+  ): Promise<{ status: number; user?: IUserDocument; message?: string }> => {
     // password check
     const password: Password = new Password()
     const [check, errorMessage] = password.validate(user.password)
     if (!check) {
       return {
         status: 400,
-        message: `Must be ${errorMessage}.`,
+        message: `Must be ${errorMessage} for password.`,
       }
     }
 
@@ -76,21 +72,16 @@ class UserService {
     return result
   }
 
-  public readOne = async ({
+  public readOneById = async ({
     _id,
     user,
   }: {
     _id: string
     user: IUser
-  }): Promise<{
-    status: number
-    user?: IUserDocument
-    message?: string
-  }> => {
+  }): Promise<{ status: number; user?: IUserDocument; message?: string }> => {
     const result = await UserModel.findById(_id)
       .exec()
-      .then(async (userDocument) => {
-        console.log(userDocument)
+      .then(async (userDocument: IUserDocument | null) => {
         // Not found user
         if (!userDocument) {
           return {
@@ -123,7 +114,7 @@ class UserService {
     return result
   }
 
-  public updateOne = async ({
+  public updateOneById = async ({
     _id,
     before,
     after,
@@ -137,9 +128,19 @@ class UserService {
     message?: string
   }> => {
     // Read
-    const foundUser = await this.readOne({ _id, user: before })
+    const foundUser = await this.readOneById({ _id, user: before })
     if (foundUser.user === undefined) {
       return foundUser
+    }
+
+    // password check
+    const password: Password = new Password()
+    const [check, errorMessage] = password.validate(after.password)
+    if (!check) {
+      return {
+        status: 400,
+        message: `Must be ${errorMessage} for password.`,
+      }
     }
 
     // Encrypt password
@@ -174,7 +175,7 @@ class UserService {
     return result
   }
 
-  public deleteOne = async ({
+  public deleteOneById = async ({
     _id,
     user,
   }: {
@@ -186,7 +187,7 @@ class UserService {
     message?: string
   }> => {
     // Read
-    const readResult = await this.readOne({ _id, user })
+    const readResult = await this.readOneById({ _id, user })
     if (readResult.user === undefined) {
       return readResult
     }
@@ -221,6 +222,43 @@ class UserService {
         }
       })
 
+    return result
+  }
+
+  public readOneByName = async (
+    user: IUser
+  ): Promise<{ status: number; user?: IUserDocument; message?: string }> => {
+    const result = await UserModel.findOne({ name: user.name })
+      .exec()
+      .then(async (userDocument: IUserDocument | null) => {
+        if (!userDocument) {
+          return {
+            status: 404,
+          }
+        }
+        // Compare plane_pass and hash_pass
+        const match: boolean = await bcrypt.compare(
+          user.password,
+          userDocument.password
+        )
+        if (!match) {
+          return {
+            status: 401,
+          }
+        }
+        return {
+          status: 200,
+          user: userDocument,
+        }
+      })
+      .catch((err: mongoose.Error) => {
+        // eslint-disable-next-line no-console
+        console.log(err)
+        return {
+          status: 500,
+          message: err.message,
+        }
+      })
     return result
   }
 }

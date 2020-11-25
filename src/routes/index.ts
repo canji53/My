@@ -50,7 +50,7 @@ router.get(
     const requestedUser = req.body as IUser
     const service = new UserService()
     service
-      .readOne({ _id, user: requestedUser })
+      .readOneById({ _id, user: requestedUser })
       .then(({ status, user, message }) => {
         res.status(status).send({ user, message })
       })
@@ -65,7 +65,7 @@ router.put(
     const { before, after } = req.body as { before: IUser; after: IUser }
     const service = new UserService()
     service
-      .updateOne({ _id, before, after })
+      .updateOneById({ _id, before, after })
       .then(({ status, user, message }) => {
         res.status(status).send({ user, message })
       })
@@ -80,7 +80,22 @@ router.delete(
     const deletedUser = req.body as IUser
     const service = new UserService()
     service
-      .deleteOne({ _id, user: deletedUser })
+      .deleteOneById({ _id, user: deletedUser })
+      .then(({ status, user, message }) => {
+        res.status(status).send({ user, message })
+      })
+      .catch(next)
+  }
+)
+
+router.get(
+  '/users/name/:name',
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { name } = req.params
+    const { password } = req.body as { password: string }
+    const service = new UserService()
+    service
+      .readOneByName({ name, password })
       .then(({ status, user, message }) => {
         res.status(status).send({ user, message })
       })
